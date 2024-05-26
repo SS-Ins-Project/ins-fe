@@ -4,42 +4,65 @@ import { Questionnaire } from '../../models/questionnaire';
 import { Destroyable } from '../../utils/destroyable';
 import { takeUntil, tap } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { QuestionComponent } from '../../components/question/question.component';
 import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-questionnaire',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, MatProgressBarModule, MatButtonModule, QuestionComponent],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    MatProgressBarModule,
+    MatButtonModule,
+    QuestionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './questionnaire.component.html',
-  styleUrl: './questionnaire.component.scss'
+  styleUrl: './questionnaire.component.scss',
 })
 export class QuestionnaireComponent extends Destroyable implements OnInit {
   questionnaire!: Questionnaire;
   currentQuestionIndex: number = 1;
+  questionnaireGroup = this.fb.group({});
 
-  constructor(private questionnaireService: QuestionnaireService) {
+  constructor(
+    private questionnaireService: QuestionnaireService,
+    private fb: FormBuilder
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    this.questionnaireService.getQuestionnaire().pipe(
-      takeUntil(this.destroy$),
-      tap(questionnaire => {
-        this.questionnaire = questionnaire;
-        console.log(questionnaire)
-      })
-    ).subscribe();
-    this.currentQuestionIndex = this.questionnaireService.getCurrentQuestionIndex();
+    this.questionnaireService
+      .getQuestionnaire()
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((questionnaire) => {
+          this.questionnaire = questionnaire;
+        })
+      )
+      .subscribe();
+    this.currentQuestionIndex =
+      this.questionnaireService.getCurrentQuestionIndex();
   }
 
   onNextPage(): void {
-    console.log('NEXT');
     this.questionnaireService.nextPage();
-    this.currentQuestionIndex = this.questionnaireService.getCurrentQuestionIndex();
+    this.currentQuestionIndex =
+      this.questionnaireService.getCurrentQuestionIndex();
   }
 
-
+  controlInit(questionControl: FormControl, id: string): void {
+    this.questionnaireGroup.addControl(id, questionControl);
+  }
 }

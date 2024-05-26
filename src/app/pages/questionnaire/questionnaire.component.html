@@ -1,5 +1,5 @@
 <div class="questionnaire-wrapper">
-  <div class="content-wrapper">
+  <form [formGroup]="questionnaireGroup" class="content-wrapper">
     <div class="content-container">
       <h2>{{ questionnaire.title }}</h2>
       <div class="progress-bar-wrapper">
@@ -17,7 +17,7 @@
           class="question-container"
           *ngFor="let question of questionnaire.questions"
         >
-          <app-question [question]="question"></app-question>
+          <app-question [question]="question" (controlInit)="controlInit($event,question.id)"></app-question>
         </div>
       </div>
     </div>
@@ -25,9 +25,10 @@
       mat-raised-button
       color="accent"
       class="next-button"
+      type="submit"
       (click)="onNextPage()"
     >
       Продължи
     </button>
-  </div>
+  </form>
 </div>

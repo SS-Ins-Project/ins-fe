@@ -51,11 +51,11 @@ export class QuestionnaireService {
             },
             {
               id: '2a',
-              text: 'Червен"',
+              text: 'Червен',
             },
             {
               id: '3a',
-              text: 'Зелен"',
+              text: 'Зелен',
             },
           ],
         },
@@ -71,7 +71,7 @@ export class QuestionnaireService {
             },
             {
               id: '2b',
-              text: 'Не"',
+              text: 'Не',
             },
           ],
         },

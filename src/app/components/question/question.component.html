@@ -1,7 +1,41 @@
 <div class="question">
   <mat-label class="label">{{ question.title }}</mat-label>
   <mat-hint class="hint" *ngIf="question.hint">{{ question.hint }}</mat-hint>
-  <mat-form-field appearance="outline" class="question-field">
-    <input matInput [placeholder]="question.hint ?? ''"/>
+  <mat-form-field
+    appearance="outline"
+    color="accent"
+    class="question-field"
+    *ngIf="
+      question.answerType === AnswerType.TEXT ||
+      question.answerType === AnswerType.NUMBER
+    "
+  >
+    <input
+      matInput
+      [formControl]="control"
+      [placeholder]="question.hint ?? ''"
+      [type]="question.answerType === AnswerType.TEXT ? 'text' : 'number'"
+    />
   </mat-form-field>
+  <ng-container *ngIf="question.answerType === AnswerType.RADIO_SELECT">
+    <mat-radio-group
+      aria-label="Select an option"
+      [formControl]="control"
+      color="accent"
+      class="question-field"
+    >
+      @for (option of question.answerOptions; track option) {
+      <mat-radio-button [value]="option">{{ option.text }}</mat-radio-button>
+      }
+    </mat-radio-group>
+  </ng-container>
+  <ng-container *ngIf="question.answerType === AnswerType.SELECT">
+    <mat-form-field appearance="outline" color="accent" class="question-field">
+      <mat-select [formControl]="control">
+        @for (option of question.answerOptions; track option) {
+        <mat-option [value]="option">{{ option.text }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
 </div>

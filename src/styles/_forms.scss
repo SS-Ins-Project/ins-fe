@@ -1,6 +1,17 @@
 @use 'colors';
+@use 'fonts';
 
 .mat-mdc-text-field-wrapper {
   background-color: colors.$white !important;
   color: colors.$primary !important;
+}
+
+.mat-mdc-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.mdc-form-field>label {
+  font: fonts.$main-font !important;
+  color: colors.$primary;
 }
