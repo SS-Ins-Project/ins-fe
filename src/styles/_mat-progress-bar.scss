@@ -1,0 +1,18 @@
+@use 'colors';
+
+.mdc-linear-progress__buffer-bar {
+  background-color: colors.$dark-cream !important;
+}
+
+.mdc-linear-progress__bar-inner {
+  border-color: colors.$secondary !important;
+  border-top-width: 8px !important;
+}
+
+.mdc-linear-progress__buffer, .mdc-linear-progress__bar {
+  height: 8px !important;
+}
+
+.mdc-linear-progress {
+  overflow: visible !important;
+}

@@ -1,0 +1,7 @@
+<div class="question">
+  <mat-label class="label">{{ question.title }}</mat-label>
+  <mat-hint class="hint" *ngIf="question.hint">{{ question.hint }}</mat-hint>
+  <mat-form-field appearance="outline" class="question-field">
+    <input matInput [placeholder]="question.hint ?? ''"/>
+  </mat-form-field>
+</div>

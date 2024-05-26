@@ -1,0 +1,6 @@
+@use 'colors';
+
+.mat-mdc-text-field-wrapper {
+  background-color: colors.$white !important;
+  color: colors.$primary !important;
+}

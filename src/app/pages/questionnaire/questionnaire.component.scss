@@ -1,0 +1,56 @@
+@use 'colors';
+@use 'fonts';
+
+.questionnaire-wrapper {
+  height: 100vh;
+  width: 100%;
+  background-image: url('/assets/images/icons-background-image.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content-wrapper {
+    background-color: colors.$cream;
+    width: 80%;
+    padding: 16px 20px;
+    min-height: 60%;
+    max-width: 700px;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .content-container {
+      flex-grow: 1;
+
+      h2 {
+        color: colors.$primary;
+      }
+
+      .progress-bar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: colors.$secondary;
+        font: fonts.$tertiary-font;
+        font-weight: 600;
+      }
+    }
+
+    .questions-wrapper {
+      padding-top: 42px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .next-button {
+      height: 50px;
+      border-radius: 12px;
+      font: fonts.$main-font;
+      font-weight: 700;
+      align-self: flex-end;
+    }
+  }
+}

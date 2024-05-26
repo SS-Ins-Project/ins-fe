@@ -1,0 +1,23 @@
+@use 'colors';
+@use 'fonts';
+
+.question {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font: fonts.$tertiary-font !important;
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: colors.$primary;
+  }
+
+  .hint {
+    font-size: 0.95rem;
+    color: colors.$grey;
+  }
+
+  .question-field {
+    padding-top: 4px;
+  }
+}

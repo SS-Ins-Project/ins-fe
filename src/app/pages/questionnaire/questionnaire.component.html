@@ -1,0 +1,33 @@
+<div class="questionnaire-wrapper">
+  <div class="content-wrapper">
+    <div class="content-container">
+      <h2>{{ questionnaire.title }}</h2>
+      <div class="progress-bar-wrapper">
+        <div class="label">
+          {{ currentQuestionIndex + '/' + questionnaire.questions.length }}
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          color="accent"
+          [value]="(currentQuestionIndex / questionnaire.questions.length) * 100"
+        ></mat-progress-bar>
+      </div>
+      <div class="questions-wrapper">
+        <div
+          class="question-container"
+          *ngFor="let question of questionnaire.questions"
+        >
+          <app-question [question]="question"></app-question>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      color="accent"
+      class="next-button"
+      (click)="onNextPage()"
+    >
+      Продължи
+    </button>
+  </div>
+</div>
