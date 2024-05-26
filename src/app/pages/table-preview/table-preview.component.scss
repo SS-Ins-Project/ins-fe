@@ -1,0 +1,22 @@
+@use 'colors';
+@use 'fonts';
+
+.table-preview-wrapper {
+
+  .content-wrapper {
+    background-color: rgba(223, 219, 206, 0.7);
+    max-width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .calc-button {
+    min-height: 50px;
+    border-radius: 12px;
+    font: fonts.$main-font;
+    font-weight: 700;
+    align-self: flex-end;
+  }
+}

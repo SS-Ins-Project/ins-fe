@@ -1,4 +1,4 @@
-<div class="questionnaire-wrapper">
+<div class="page-wrapper questionnaire-wrapper">
   <form [formGroup]="questionnaireGroup" class="content-wrapper">
     <div class="content-container">
       <h2>{{ questionnaire.title }}</h2>
@@ -27,6 +27,7 @@
       class="next-button"
       type="submit"
       (click)="onNextPage()"
+      routerLink="../obsolescence-preview"
     >
       Продължи
     </button>

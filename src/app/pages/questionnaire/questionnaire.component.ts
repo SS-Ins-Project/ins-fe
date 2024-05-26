@@ -14,6 +14,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-questionnaire',
@@ -25,6 +26,7 @@ import {
     MatButtonModule,
     QuestionComponent,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
   ],
   templateUrl: './questionnaire.component.html',

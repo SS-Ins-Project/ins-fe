@@ -1,0 +1,53 @@
+@use 'colors';
+@use 'fonts';
+
+
+.mat-mdc-table {
+  background-color: unset !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  font: fonts.$main-font !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: colors.$primary;
+}
+
+.mat-mdc-row:nth-child(2n) .mat-mdc-cell {
+  background-color: colors.$cream;
+
+  &:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
+.mat-mdc-row:nth-child(2n - 1) .mat-mdc-cell {
+  background-color: colors.$dark-cream;
+
+  &:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
+.mat-mdc-header-cell {
+  border-radius: 200px;
+  color: colors.$white;
+  background-color: colors.$secondary !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+}

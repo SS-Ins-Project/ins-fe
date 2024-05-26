@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AppComponent {
   title = 'ins-fe';
+
+  constructor() {
+    registerLocaleData(localeFr, 'fr');
+  }
 }
