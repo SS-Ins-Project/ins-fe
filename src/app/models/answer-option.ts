@@ -1,4 +1,4 @@
 export interface AnswerOption {
-  id: string,
+  id: number,
   text: string
 }

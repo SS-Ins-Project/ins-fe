@@ -64,7 +64,7 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
       this.questionnaireService.getCurrentQuestionIndex();
   }
 
-  controlInit(questionControl: FormControl, id: string): void {
-    this.questionnaireGroup.addControl(id, questionControl);
+  controlInit(questionControl: FormControl, id: number): void {
+    this.questionnaireGroup.addControl(id.toString(), questionControl);
   }
 }

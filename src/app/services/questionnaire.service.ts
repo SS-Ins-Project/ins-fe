@@ -22,55 +22,55 @@ export class QuestionnaireService {
 
   getQuestionnaire(): Observable<Questionnaire> {
     return of({
-      id: '1',
+      id: 1,
       title: 'Овехтяване на  Каско',
       questions: [
         {
-          id: '1',
+          id: 1,
           title: 'Вид на МПС',
           hint: 'Въведете видът на вашия автомобил',
           required: true,
           answerType: AnswerType.TEXT,
         },
         {
-          id: '2',
+          id: 2,
           title: 'Възраст на МПС',
           hint: 'Въведете годината на производство на вашия автомобил',
           required: true,
           answerType: AnswerType.NUMBER,
         },
         {
-          id: '3',
+          id: 3,
           title: 'Цвят на МПС',
           required: false,
           answerType: AnswerType.SELECT,
           answerOptions: [
             {
-              id: '1a',
+              id: 11,
               text: 'Бял',
             },
             {
-              id: '2a',
+              id: 12,
               text: 'Червен',
             },
             {
-              id: '3a',
+              id: 13,
               text: 'Зелен',
             },
           ],
         },
         {
-          id: '4',
+          id: 4,
           title: 'МПС притежава ли имобилайзер',
           required: true,
           answerType: AnswerType.RADIO_SELECT,
           answerOptions: [
             {
-              id: '1b',
+              id: 15,
               text: 'Да',
             },
             {
-              id: '2b',
+              id: 16,
               text: 'Не',
             },
           ],
