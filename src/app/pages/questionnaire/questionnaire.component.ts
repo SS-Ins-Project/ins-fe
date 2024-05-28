@@ -27,7 +27,7 @@ import { RouterModule } from '@angular/router';
     QuestionComponent,
     FormsModule,
     RouterModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './questionnaire.component.html',
   styleUrl: './questionnaire.component.scss',

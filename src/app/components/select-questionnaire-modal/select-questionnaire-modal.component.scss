@@ -1,0 +1,30 @@
+@use 'colors';
+@use 'fonts';
+
+.modal-wrapper {
+  padding: 20px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  background-color: colors.$cream;
+
+  .title {
+    color: colors.$primary;
+    margin-top: 0;
+  }
+
+  .form-wrapper {
+    padding: 20px 0;
+    flex-grow: 1;
+  }
+
+  .actions-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      flex-grow: 1;
+    }
+  }
+}

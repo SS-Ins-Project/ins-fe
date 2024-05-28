@@ -1,0 +1,44 @@
+<div class="modal-wrapper">
+  <h2 class="title">Изберете застрахователен продукт:</h2>
+  <form [formGroup]="selectedQuestionnaireGroup" class="form-wrapper">
+    <mat-radio-group
+      class="radio-group"
+      formControlName="selectedQuestionnaire"
+    >
+      @for (questionnaire of questionnaires; track questionnaire) {
+      <mat-radio-button
+        class="example-radio-button"
+        [value]="questionnaire.questionnaire_id"
+      >
+        {{ questionnaire.questionnaire_type }}
+      </mat-radio-button>
+      }
+      <mat-error
+        class="error-wrapper"
+        *ngIf="
+          (selectedQuestionnaireControl.dirty ||
+            selectedQuestionnaireControl.touched) &&
+          selectedQuestionnaireControl.hasError('required')
+        "
+      >
+        Моля, изберете застрахователен продукт!
+      </mat-error>
+    </mat-radio-group>
+  </form>
+
+  <img
+    src="\assets\images\car.gif"
+    alt="car-gif"
+  />
+  <div class="actions-wrapper">
+    <button mat-raised-button (click)="onCancel()" color="warn">Откажи</button>
+    <button
+      mat-raised-button
+      (click)="onCalculate()"
+      color="primary"
+      cdkFocusInitial
+    >
+      Калкулирай
+    </button>
+  </div>
+</div>

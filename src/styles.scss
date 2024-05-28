@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -18,7 +19,9 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font: $tertiary-font;
 }
 
@@ -43,4 +46,10 @@ h1, h2, h3 {
     flex-direction: column;
     justify-content: space-between;
   }
+}
+
+button {
+  font: $main-font;
+  font-weight: 700;
+  height: 40px;
 }

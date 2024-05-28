@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Questionnaire } from '../models/questionnaire';
 import { AnswerType } from '../models/answer-type.enum';
 import { Observable, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,11 @@ export class QuestionnaireService {
   questionnaire!: Questionnaire;
   private currentQuestionIndex: number = 1;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  getAllQuestionnaires(): Observable<any> {
+    return this.http.get('http://localhost:443/api/questionnaire/getAllQuestionnaires');
+  }
 
   getCurrentQuestionIndex(): number {
     return this.currentQuestionIndex;
