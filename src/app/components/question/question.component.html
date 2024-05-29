@@ -1,38 +1,39 @@
 <div class="question">
-  <mat-label class="label">{{ question.title }}</mat-label>
-  <mat-hint class="hint" *ngIf="question.hint">{{ question.hint }}</mat-hint>
+  <mat-label class="label">{{ question.question_name }}</mat-label>
+  <mat-hint class="hint" *ngIf="question.question_hint">{{ question.question_hint }}</mat-hint>
   <mat-form-field
     appearance="outline"
     color="accent"
     class="question-field"
     *ngIf="
-      question.answerType === AnswerType.TEXT ||
-      question.answerType === AnswerType.NUMBER
+      question.answer_type === AnswerType.TEXT ||
+      question.answer_type === AnswerType.NUMBER
     "
   >
     <input
       matInput
       [formControl]="control"
-      [placeholder]="question.hint ?? ''"
-      [type]="question.answerType === AnswerType.TEXT ? 'text' : 'number'"
+      [placeholder]="question.question_hint ?? ''"
+      [type]="question.answer_type === AnswerType.TEXT ? 'text' : 'number'"
     />
   </mat-form-field>
-  <ng-container *ngIf="question.answerType === AnswerType.RADIO_SELECT">
+  <!-- <ng-container *ngIf="question.answer_type === AnswerType.RADIO_SELECT">
     <mat-radio-group
       aria-label="Select an option"
       [formControl]="control"
       color="accent"
       class="question-field"
     >
-      @for (option of question.answerOptions; track option) {
+      @for (option of getQuestionOptions(question); track option) {
       <mat-radio-button [value]="option">{{ option.text }}</mat-radio-button>
       }
     </mat-radio-group>
-  </ng-container>
-  <ng-container *ngIf="question.answerType === AnswerType.SELECT">
+  </ng-container> -->
+
+  <ng-container *ngIf="question.answer_type === AnswerType.SELECT">
     <mat-form-field appearance="outline" color="accent" class="question-field">
       <mat-select [formControl]="control">
-        @for (option of question.answerOptions; track option) {
+        @for (option of getQuestionOptions(question); track option) {
         <mat-option [value]="option">{{ option.text }}</mat-option>
         }
       </mat-select>

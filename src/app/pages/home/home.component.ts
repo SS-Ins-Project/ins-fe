@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { SelectQuestionnaireModalComponent } from '../../components/select-questionnaire-modal/select-questionnaire-modal.component';
+import { QuestionnaireService } from '../../services/questionnaire.service';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,15 @@ import { SelectQuestionnaireModalComponent } from '../../components/select-quest
 })
 export class HomeComponent {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private questionnaireService: QuestionnaireService) {}
 
   openModal(): void {
-    this.dialog.open(SelectQuestionnaireModalComponent)
+    const dialogRef = this.dialog.open(SelectQuestionnaireModalComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.questionnaireService.selectQuestionnaire(result);
+      }
+    })
   }
 
 }

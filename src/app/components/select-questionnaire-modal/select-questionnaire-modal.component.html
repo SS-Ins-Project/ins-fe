@@ -26,12 +26,8 @@
     </mat-radio-group>
   </form>
 
-  <img
-    src="\assets\images\car.gif"
-    alt="car-gif"
-  />
+  <img src="\assets\images\car.gif" alt="car-gif" />
   <div class="actions-wrapper">
-    <button mat-raised-button (click)="onCancel()" color="warn">Откажи</button>
     <button
       mat-raised-button
       (click)="onCalculate()"
@@ -40,5 +36,6 @@
     >
       Калкулирай
     </button>
+    <button mat-raised-button (click)="onCancel()" color="warn">Откажи</button>
   </div>
 </div>

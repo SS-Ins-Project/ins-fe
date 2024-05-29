@@ -2,12 +2,14 @@ import { AnswerOption } from "./answer-option";
 import { AnswerType } from "./answer-type.enum";
 
 export interface Question {
-  id: number,
-  title: string,
-  hint?: string,
-  required: boolean,
+  question_id: number,
+  question_position: number,
+  question_name: string,
+  question_hint?: string,
+  question_required: 'Y' | 'N',
   value?: any,
-  answerType: AnswerType,
-  answerOptions?: AnswerOption[],
-  dependentQuestion?: number
+  answer_type: AnswerType,
+  // answerOptions?: AnswerOption[],
+  dependent_question?: number,
+  questionnaire_id: number
 }

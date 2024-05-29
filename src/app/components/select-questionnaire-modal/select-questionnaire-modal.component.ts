@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { QuestionnaireService } from '../../services/questionnaire.service';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { Questionnaire } from '../../models/questionnaire';
 
 @Component({
   selector: 'app-select-questionnaire-modal',
@@ -24,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './select-questionnaire-modal.component.scss',
 })
 export class SelectQuestionnaireModalComponent implements OnInit {
-  questionnaires: any[] = [];
+  questionnaires: Questionnaire[] = [];
   selectedQuestionnaireGroup = this.fb.group({
     selectedQuestionnaire: this.fb.control<null | number>(null, Validators.required)
   });
@@ -43,6 +44,7 @@ export class SelectQuestionnaireModalComponent implements OnInit {
     this.questionnaireService
       .getAllQuestionnaires()
       .pipe(
+        take(1),
         tap((questionnaires) => this.questionnaires = questionnaires)
       )
       .subscribe();
@@ -50,9 +52,10 @@ export class SelectQuestionnaireModalComponent implements OnInit {
 
   onCalculate(): void {
     this.selectedQuestionnaireGroup.markAllAsTouched();
-    console.log(this.selectedQuestionnaireGroup.valid, this.selectedQuestionnaireGroup.value)
+
     if(this.selectedQuestionnaireGroup.valid) {
-      this.dialogRef.close(this.selectedQuestionnaireControl.value);
+      const questionnaireObject = this.questionnaires.find(questionnaire => questionnaire.questionnaire_id === this.selectedQuestionnaireControl.value);
+      this.dialogRef.close(questionnaireObject);
     }
   }
 

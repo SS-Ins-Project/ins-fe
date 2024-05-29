@@ -42,14 +42,19 @@
     padding-top: 42px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
   }
 
-  .next-button {
-    min-height: 50px;
-    border-radius: 12px;
-    font: fonts.$main-font;
-    font-weight: 700;
-    align-self: flex-end;
+  .actions-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    .next-button {
+      min-height: 50px;
+      border-radius: 12px;
+      font: fonts.$main-font;
+      font-weight: 700;
+    }
   }
 }

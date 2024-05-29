@@ -1,7 +1,7 @@
 import { Question } from "./question";
 
 export interface Questionnaire {
-  id: number,
-  title: string,
-  questions: Question[]
+  questionnaire_id: number,
+  questionnaire_type: string,
+  questions?: Question[]
 }

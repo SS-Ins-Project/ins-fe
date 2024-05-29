@@ -13,6 +13,7 @@ import {
 import { MatRadioModule } from '@angular/material/radio';
 import { AnswerType } from '../../models/answer-type.enum';
 import { MatSelectModule } from '@angular/material/select';
+import { AnswerOption } from '../../models/answer-option';
 
 @Component({
   selector: 'app-question',
@@ -40,17 +41,22 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {
     if (this.question) {
       this.control = this.fb.control('');
-      if (this.question.answerType === AnswerType.NUMBER) {
+      if (this.question.answer_type === AnswerType.NUMBER) {
         this.control.addValidators(Validators.pattern(/^\d+$/));
         this.control.patchValue(0);
-      } else if (
-        this.question.answerType === AnswerType.RADIO_SELECT &&
-        this.question?.answerOptions?.length
-      ) {
-        this.control.patchValue(this.question.answerOptions[0]);
       }
+      // else if (
+      //   this.question.answer_type === AnswerType.RADIO_SELECT &&
+      //   this.question?.answerOptions?.length
+      // ) {
+      //   this.control.patchValue(this.question.answerOptions[0]);
+      // }
       this.controlInit.emit(this.control);
     }
+  }
+
+  getQuestionOptions(question: Question): AnswerOption[] {
+    return [];
   }
 
   readonly AnswerType = AnswerType;

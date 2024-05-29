@@ -14,7 +14,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Question } from '../../models/question';
 
 @Component({
   selector: 'app-questionnaire',
@@ -27,41 +28,56 @@ import { RouterModule } from '@angular/router';
     QuestionComponent,
     FormsModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './questionnaire.component.html',
   styleUrl: './questionnaire.component.scss',
 })
 export class QuestionnaireComponent extends Destroyable implements OnInit {
   questionnaire!: Questionnaire;
-  currentQuestionIndex: number = 1;
   questionnaireGroup = this.fb.group({});
+  currentQuestions: Question[] = [];
+  questionsStep!: number;
+  allPagesCount: number = 1;
+  currentPage: number = 1;
 
   constructor(
     private questionnaireService: QuestionnaireService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.questionnaireService
-      .getQuestionnaire()
+    this.currentPage = this.questionnaireService.getCurrentQuestionPage();
+    this.questionsStep = this.questionnaireService.getCurrentQuestionStep();
+
+    this.route.data
       .pipe(
         takeUntil(this.destroy$),
-        tap((questionnaire) => {
-          this.questionnaire = questionnaire;
+        tap((data) => {
+          this.questionnaire = data['questionnaire'];
+
+          const questionLength = this.questionnaire.questions?.length ?? 0;
+          this.allPagesCount = questionLength ? Math.ceil(questionLength / this.questionsStep) : 1;
         })
       )
       .subscribe();
-    this.currentQuestionIndex =
-      this.questionnaireService.getCurrentQuestionIndex();
+
+    this.questionnaireService.currentQuestions$.subscribe(questions => this.currentQuestions = questions);
   }
 
   onNextPage(): void {
     this.questionnaireService.nextPage();
-    this.currentQuestionIndex =
-      this.questionnaireService.getCurrentQuestionIndex();
+    this.currentPage =
+      this.questionnaireService.getCurrentQuestionPage();
+  }
+
+  onPreviousPage(): void {
+    this.questionnaireService.previousPage();
+    this.currentPage =
+      this.questionnaireService.getCurrentQuestionPage();
   }
 
   controlInit(questionControl: FormControl, id: number): void {
