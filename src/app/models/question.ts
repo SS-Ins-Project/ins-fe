@@ -9,7 +9,7 @@ export interface Question {
   question_required: 'Y' | 'N',
   value?: any,
   answer_type: AnswerType,
-  // answerOptions?: AnswerOption[],
+  options?: AnswerOption[],
   dependent_question?: number,
   questionnaire_id: number
 }

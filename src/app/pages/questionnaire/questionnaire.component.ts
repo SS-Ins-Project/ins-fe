@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Question } from '../../models/question';
+import { AnswerOption } from '../../models/answer-option';
 
 @Component({
   selector: 'app-questionnaire',
@@ -69,6 +70,11 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
   }
 
   onNextPage(): void {
+    if(this.currentPage + 1 > this.allPagesCount){
+      console.log('SUBMIT')
+
+      this.questionnaireService.submitQuestionnaire(this.questionnaireGroup.value).subscribe();
+    }
     this.questionnaireService.nextPage();
     this.currentPage =
       this.questionnaireService.getCurrentQuestionPage();
@@ -78,6 +84,31 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
     this.questionnaireService.previousPage();
     this.currentPage =
       this.questionnaireService.getCurrentQuestionPage();
+  }
+
+  getQuestionOptions(question: Question): AnswerOption[] {
+    // console.log('GET');
+    return question?.options ?? [];
+  }
+
+  getQuestionValue(questionId: number | undefined): any {
+    if(!questionId) {
+      return null;
+    }
+
+    const value: any = this.questionnaireGroup.value;
+    return value[(questionId.toString())];
+  }
+
+  isQuestionDisable(question: Question): boolean {
+    const value: any = this.questionnaireGroup.value;
+    let disabledState = false;
+
+    if(question.dependent_question && !value[(question.dependent_question?.toString() as string)]) {
+      disabledState = true;
+    }
+
+    return disabledState;
   }
 
   controlInit(questionControl: FormControl, id: number): void {

@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Question } from '../models/question';
+import { AnswerOption } from '../models/answer-option';
 
 @Injectable({
   providedIn: 'root',
@@ -22,13 +23,29 @@ export class QuestionnaireService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getAllQuestionnaires(): Observable<any> {
-    return this.http.get('http://localhost:443/api/questionnaire/getAllQuestionnaires');
+    return this.http.get(
+      'http://localhost:443/api/questionnaire/getAllQuestionnaires'
+    );
+  }
+
+  getAllQuestionOptions(
+    questionId: number,
+    dependentQuestionValue?: any
+  ): Observable<any> {
+    let params = new HttpParams().set('questionId', questionId);
+    if (dependentQuestionValue) {
+      params = params.append('dependentQuestionValue', dependentQuestionValue);
+    }
+
+    return this.http.get(
+      'http://localhost:443/api/options/getOptionsByQuestion',
+      { params }
+    );
   }
 
   selectQuestionnaire(questionnaire: Questionnaire): void {
     this.questionnaire = questionnaire;
-    this.router.navigate(['questionnaire', questionnaire.questionnaire_id])
-    console.log(questionnaire)
+    this.router.navigate(['questionnaire', questionnaire.questionnaire_id]);
   }
 
   getCurrentQuestionIndex(): number {
@@ -44,99 +61,87 @@ export class QuestionnaireService {
   }
 
   nextPage(): void {
-    if(this.currentQuestionIndex + this.questionsStep >= (this.questionnaire.questions as [])?.length){
+    if (
+      this.currentQuestionIndex + this.questionsStep >=
+      (this.questionnaire.questions as [])?.length
+    ) {
       console.log('SUBMIT');
+      this.currentQuestionIndex = 0;
+      this.currentPage = 1;
+      this.router.navigate(['../', 'obsolescence-preview']);
       return;
     }
-    this.currentQuestionIndex+=this.questionsStep;
+    this.currentQuestionIndex += this.questionsStep;
     this.currentPage++;
-    const displayedQuestions = this.questionnaire.questions?.slice(this.currentQuestionIndex, this.currentQuestionIndex + this.questionsStep) ?? [];
+    const displayedQuestions =
+      this.questionnaire.questions?.slice(
+        this.currentQuestionIndex,
+        this.currentQuestionIndex + this.questionsStep
+      ) ?? [];
     this.currentQuestions.next(displayedQuestions);
   }
 
   previousPage(): void {
-    if(this.currentQuestionIndex-this.questionsStep < 0){
-      this.router.navigate(['../','home']);
+    if (this.currentQuestionIndex - this.questionsStep < 0) {
+      this.currentQuestionIndex = 0;
+      this.currentPage = 1;
+      this.router.navigate(['../', 'home']);
       return;
     }
     this.currentPage--;
-    const displayedQuestions = this.questionnaire.questions?.slice((this.currentQuestionIndex - this.questionsStep ?? 0), this.currentQuestionIndex) ?? [];
+    const displayedQuestions =
+      this.questionnaire.questions?.slice(
+        this.currentQuestionIndex - this.questionsStep ?? 0,
+        this.currentQuestionIndex
+      ) ?? [];
     this.currentQuestions.next(displayedQuestions);
-    this.currentQuestionIndex-=this.questionsStep;
+    this.currentQuestionIndex -= this.questionsStep;
   }
 
   getQuestionnaire(): Observable<Questionnaire> {
     return of();
   }
 
-  getQuestionnaireQuestions(questionnaireId: string): Observable<Questionnaire> {
-    const params = new HttpParams().set('id', questionnaireId);
+  getQuestionnaireQuestions(
+    questionnaireId: string
+  ): Observable<Questionnaire> {
+    const params = new HttpParams().set('questionnaireId', questionnaireId);
 
-    return this.http.get<Question[]>('http://localhost:443/api/questions/getQuestionsByQuestionnaire', {params}).pipe(
-      map(questions => {
-        this.questionnaire.questions = questions;
-        const displayedQuestions = questions.slice(0, this.questionsStep);
-        this.currentQuestions.next(displayedQuestions);
-        return this.questionnaire;
-      })
-    );
-    // return of({
-    //   id: 1,
-    //   title: 'Овехтяване на  Каско',
-    //   questions: [
-    //     {
-    //       id: 1,
-    //       title: 'Вид на МПС',
-    //       hint: 'Въведете видът на вашия автомобил',
-    //       required: true,
-    //       answerType: AnswerType.TEXT,
-    //     },
-    //     {
-    //       id: 2,
-    //       title: 'Възраст на МПС',
-    //       hint: 'Въведете годината на производство на вашия автомобил',
-    //       required: true,
-    //       answerType: AnswerType.NUMBER,
-    //     },
-    //     {
-    //       id: 3,
-    //       title: 'Цвят на МПС',
-    //       required: false,
-    //       answerType: AnswerType.SELECT,
-    //       answerOptions: [
-    //         {
-    //           id: 11,
-    //           text: 'Бял',
-    //         },
-    //         {
-    //           id: 12,
-    //           text: 'Червен',
-    //         },
-    //         {
-    //           id: 13,
-    //           text: 'Зелен',
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       id: 4,
-    //       title: 'МПС притежава ли имобилайзер',
-    //       required: true,
-    //       answerType: AnswerType.RADIO_SELECT,
-    //       answerOptions: [
-    //         {
-    //           id: 15,
-    //           text: 'Да',
-    //         },
-    //         {
-    //           id: 16,
-    //           text: 'Не',
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // }).pipe(
-    //   tap(questionnaire => this.questionnaire = questionnaire)
-    // );
+    return this.http
+      .get<Question[]>(
+        'http://localhost:443/api/questions/getQuestionsByQuestionnaireWithOptions',
+        { params }
+      )
+      .pipe(
+        map((questions) => {
+          questions.sort(
+            (q1, q2) => q1.question_position - q2.question_position
+          );
+          this.questionnaire.questions = questions;
+          const displayedQuestions = questions.slice(0, this.questionsStep);
+          this.currentQuestions.next(displayedQuestions);
+          return this.questionnaire;
+        })
+      );
+  }
+
+  submitQuestionnaire(answers: any): Observable<any> {
+    console.log(answers);
+    const formattedAnswers: any[] = [];
+    Object.entries(answers).map(([key, value]) => {
+      console.log(key, value);
+      if (value || typeof value === 'number') {
+        const isValueObject = typeof value === 'object' && !Array.isArray(value) && value !== null;
+
+        formattedAnswers.push({
+          answer_name: isValueObject
+            ? (value as AnswerOption).answer_name
+            : value,
+          question_id: key,
+        });
+      }
+    });
+    console.log(formattedAnswers);
+    return of();
   }
 }

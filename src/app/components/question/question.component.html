@@ -17,24 +17,23 @@
       [type]="question.answer_type === AnswerType.TEXT ? 'text' : 'number'"
     />
   </mat-form-field>
-  <!-- <ng-container *ngIf="question.answer_type === AnswerType.RADIO_SELECT">
+  <ng-container *ngIf="question.answer_type === AnswerType.RADIO_SELECT">
     <mat-radio-group
       aria-label="Select an option"
       [formControl]="control"
       color="accent"
       class="question-field"
     >
-      @for (option of getQuestionOptions(question); track option) {
-      <mat-radio-button [value]="option">{{ option.text }}</mat-radio-button>
-      }
+      <mat-radio-button value="Y">Да</mat-radio-button>
+      <mat-radio-button value="N">Не</mat-radio-button>
     </mat-radio-group>
-  </ng-container> -->
+  </ng-container>
 
   <ng-container *ngIf="question.answer_type === AnswerType.SELECT">
     <mat-form-field appearance="outline" color="accent" class="question-field">
       <mat-select [formControl]="control">
-        @for (option of getQuestionOptions(question); track option) {
-        <mat-option [value]="option">{{ option.text }}</mat-option>
+        @for (option of questionOptions; track option) {
+        <mat-option [value]="option">{{ option.answer_name }}</mat-option>
         }
       </mat-select>
     </mat-form-field>

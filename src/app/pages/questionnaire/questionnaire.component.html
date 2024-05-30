@@ -4,7 +4,7 @@
       <h2>{{ questionnaire.questionnaire_type }}</h2>
       <div class="progress-bar-wrapper">
         <div class="label">
-          {{ currentPage + '/' + allPagesCount }}
+          {{ currentPage + "/" + allPagesCount }}
         </div>
         <mat-progress-bar
           mode="determinate"
@@ -17,29 +17,35 @@
           class="question-container"
           *ngFor="let question of currentQuestions"
         >
-          <app-question [question]="question" (controlInit)="controlInit($event,question.question_id)"></app-question>
+          <app-question
+            [question]="question"
+            [disabledStatus]="isQuestionDisable(question)"
+            [questionOptions]="getQuestionOptions(question)"
+            [dependentQuestionValue]="getQuestionValue(question?.dependent_question)"
+            (controlInit)="controlInit($event, question.question_id)"
+          ></app-question>
         </div>
       </div>
     </div>
     <div class="actions-wrapper">
       <button
-      mat-raised-button
-      color="primary"
-      class="next-button"
-      type="button"
-      (click)="onPreviousPage()"
-    >
-      Назад
-    </button>
-    <button
-      mat-raised-button
-      color="accent"
-      class="next-button"
-      type="submit"
-      (click)="onNextPage()"
-    >
-      Продължи
-    </button>
+        mat-raised-button
+        color="primary"
+        class="next-button"
+        type="button"
+        (click)="onPreviousPage()"
+      >
+        Назад
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="next-button"
+        type="submit"
+        (click)="onNextPage()"
+      >
+        Продължи
+      </button>
     </div>
   </form>
 </div>
