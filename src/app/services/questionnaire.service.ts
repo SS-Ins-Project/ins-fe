@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Questionnaire } from '../models/questionnaire';
-import { AnswerType } from '../models/answer-type.enum';
-import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Question } from '../models/question';
@@ -19,12 +18,13 @@ export class QuestionnaireService {
   private questionsStep: number = 3;
   private currentQuestionIndex: number = 0;
   private currentPage: number = 1;
+  private formattedAnswers: any[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getAllQuestionnaires(): Observable<any> {
     return this.http.get(
-      'http://localhost:443/api/questionnaire/getAllQuestionnaires'
+      'https://localhost:443/api/questionnaire/getAllQuestionnaires'
     );
   }
 
@@ -38,7 +38,7 @@ export class QuestionnaireService {
     }
 
     return this.http.get(
-      'http://localhost:443/api/options/getOptionsByQuestion',
+      'https://localhost:443/api/options/getOptionsByQuestion',
       { params }
     );
   }
@@ -60,12 +60,15 @@ export class QuestionnaireService {
     return this.questionsStep;
   }
 
+  getFormattedAnswers(): any[] {
+    return this.formattedAnswers;
+  }
+
   nextPage(): void {
     if (
       this.currentQuestionIndex + this.questionsStep >=
       (this.questionnaire.questions as [])?.length
     ) {
-      console.log('SUBMIT');
       this.currentQuestionIndex = 0;
       this.currentPage = 1;
       this.router.navigate(['../', 'obsolescence-preview']);
@@ -109,7 +112,7 @@ export class QuestionnaireService {
 
     return this.http
       .get<Question[]>(
-        'http://localhost:443/api/questions/getQuestionsByQuestionnaireWithOptions',
+        'https://localhost:443/api/questions/getQuestionsByQuestionnaireWithOptions',
         { params }
       )
       .pipe(
@@ -125,11 +128,9 @@ export class QuestionnaireService {
       );
   }
 
-  submitQuestionnaire(answers: any): Observable<any> {
-    console.log(answers);
+  submitQuestionnaire(answers: any): void {
     const formattedAnswers: any[] = [];
     Object.entries(answers).map(([key, value]) => {
-      console.log(key, value);
       if (value || typeof value === 'number') {
         const isValueObject = typeof value === 'object' && !Array.isArray(value) && value !== null;
 
@@ -141,7 +142,6 @@ export class QuestionnaireService {
         });
       }
     });
-    console.log(formattedAnswers);
-    return of();
+    this.formattedAnswers = formattedAnswers;
   }
 }

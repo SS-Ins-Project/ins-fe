@@ -10,14 +10,14 @@
       <!-- Insurance value Column -->
       <ng-container matColumnDef="insuranceValue">
         <th mat-header-cell *matHeaderCellDef>Застрахователна сума:</th>
-        <td mat-cell *matCellDef="let element">{{ element.insuranceValue }}</td>
+        <td mat-cell *matCellDef="let element">{{ (element.insuranceValue | number : "1.0-0" : "fr-FR") ?? 0 }}</td>
       </ng-container>
 
       <!-- Premium value Column -->
       <ng-container matColumnDef="premium">
         <th mat-header-cell *matHeaderCellDef>Премия:</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.premium | number : "1.0-0" : "fr-FR" }}
+          {{ (element.premium | number : "1.0-0" : "fr-FR") ?? 0 }}
         </td>
       </ng-container>
 

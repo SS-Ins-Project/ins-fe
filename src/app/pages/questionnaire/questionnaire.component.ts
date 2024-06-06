@@ -71,9 +71,7 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
 
   onNextPage(): void {
     if(this.currentPage + 1 > this.allPagesCount){
-      console.log('SUBMIT')
-
-      this.questionnaireService.submitQuestionnaire(this.questionnaireGroup.value).subscribe();
+      this.questionnaireService.submitQuestionnaire(this.questionnaireGroup.value);
     }
     this.questionnaireService.nextPage();
     this.currentPage =
@@ -87,7 +85,6 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
   }
 
   getQuestionOptions(question: Question): AnswerOption[] {
-    // console.log('GET');
     return question?.options ?? [];
   }
 

@@ -23,6 +23,8 @@ import { AnswerType } from '../../models/answer-type.enum';
 import { MatSelectModule } from '@angular/material/select';
 import { AnswerOption } from '../../models/answer-option';
 import { QuestionnaireService } from '../../services/questionnaire.service';
+import { takeUntil } from 'rxjs';
+import { Destroyable } from '../../utils/destroyable';
 
 @Component({
   selector: 'app-question',
@@ -39,7 +41,7 @@ import { QuestionnaireService } from '../../services/questionnaire.service';
   templateUrl: './question.component.html',
   styleUrl: './question.component.scss',
 })
-export class QuestionComponent implements OnInit, OnChanges {
+export class QuestionComponent extends Destroyable implements OnInit, OnChanges {
   @Input() question!: Question;
   @Input() questionOptions: AnswerOption[] = [];
   @Input() disabledStatus: boolean = true;
@@ -52,7 +54,9 @@ export class QuestionComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private questionnaireService: QuestionnaireService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     if (this.question) {
@@ -82,14 +86,13 @@ export class QuestionComponent implements OnInit, OnChanges {
       this.question &&
       this.dependentQuestionValue?.answer_name
     ) {
-      console.log(changes['dependentQuestionValue']);
       this.questionnaireService
         .getAllQuestionOptions(
           this.question.question_id,
           this.dependentQuestionValue?.answer_name
         )
+        .pipe(takeUntil(this.destroy$))
         .subscribe((l) => {
-          console.log(l);
           this.questionOptions = l;
         });
     }

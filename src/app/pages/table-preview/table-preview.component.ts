@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TableData } from '../../models/table-data';
 import { TableService } from '../../services/table.service';
-import { take, tap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { Destroyable } from '../../utils/destroyable';
 
 @Component({
   selector: 'app-table-preview',
@@ -14,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './table-preview.component.html',
   styleUrl: './table-preview.component.scss',
 })
-export class TablePreviewComponent implements OnInit {
+export class TablePreviewComponent extends Destroyable implements OnInit {
   tableData: TableData[] = [];
   displayedColumns: string[] = [
     'year',
@@ -23,14 +24,23 @@ export class TablePreviewComponent implements OnInit {
     'currency',
   ];
 
-  constructor(private tableService: TableService) {}
+  constructor(private tableService: TableService, private route: ActivatedRoute) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.tableService
-      .getTableData()
+    this.route.data
       .pipe(
-        take(1),
-        tap((tableData) => (this.tableData = tableData))
+        takeUntil(this.destroy$),
+        tap((data) => {
+          const currentYear = new Date().getFullYear()
+          this.tableData = data['tableData'].map((data: any) => {
+            return {
+              ...data,
+              year: currentYear + data.year
+            }
+          });
+        })
       )
       .subscribe();
   }
