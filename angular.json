@@ -74,7 +74,12 @@
               "buildTarget": "ins-fe:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "ssl": true,
+            "sslKey": "C:/Users/stasi/key.pem",
+            "sslCert": "C:/Users/stasi/cert.pem"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
