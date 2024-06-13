@@ -13,9 +13,13 @@ export const routes: Routes = [
     path: '', redirectTo: 'home', pathMatch: 'full'
   },
   {
-    path: 'questionnaire/:questionnaireId', component: QuestionnaireComponent, resolve: { questionnaire: questionnaireResolver }
+    path: 'questionnaire/:questionnaireId',
+    component: QuestionnaireComponent,
+    resolve: { questionnaire: questionnaireResolver }
   },
   {
-    path: 'obsolescence-preview', component: TablePreviewComponent, resolve: {tableData: tablePreviewResolver}
+    path: 'obsolescence-preview',
+    component: TablePreviewComponent,
+    resolve: {tableData: tablePreviewResolver}
   }
 ];
