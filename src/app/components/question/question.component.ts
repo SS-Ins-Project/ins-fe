@@ -61,12 +61,18 @@ export class QuestionComponent extends Destroyable implements OnInit, OnChanges 
   ngOnInit(): void {
     if (this.question) {
       this.control = this.fb.control('');
+      if(this.question.question_required) {
+        this.control.addValidators(Validators.required);
+      }
       if (this.question.answer_type === AnswerType.NUMBER) {
         this.control.addValidators(Validators.pattern(/^\d+$/));
         this.control.patchValue(0);
       }
       if (this.disabledStatus) {
         this.control.disable();
+      }
+      if(this.question.value) {
+        this.control.patchValue(this.question.value);
       }
 
       this.controlInit.emit(this.control);
@@ -92,8 +98,8 @@ export class QuestionComponent extends Destroyable implements OnInit, OnChanges 
           this.dependentQuestionValue?.answer_name
         )
         .pipe(takeUntil(this.destroy$))
-        .subscribe((l) => {
-          this.questionOptions = l;
+        .subscribe((options) => {
+          this.questionOptions = options;
         });
     }
   }

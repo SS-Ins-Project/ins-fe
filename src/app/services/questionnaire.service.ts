@@ -101,10 +101,6 @@ export class QuestionnaireService {
     this.currentQuestionIndex -= this.questionsStep;
   }
 
-  getQuestionnaire(): Observable<Questionnaire> {
-    return of();
-  }
-
   getQuestionnaireQuestions(
     questionnaireId: string
   ): Observable<Questionnaire> {

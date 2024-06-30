@@ -70,6 +70,11 @@ export class QuestionnaireComponent extends Destroyable implements OnInit {
   }
 
   onNextPage(): void {
+    this.questionnaireGroup.markAllAsTouched();
+
+    if(this.questionnaireGroup.invalid) {
+      return;
+    }
     if(this.currentPage + 1 > this.allPagesCount){
       this.questionnaireService.submitQuestionnaire(this.questionnaireGroup.value);
     }

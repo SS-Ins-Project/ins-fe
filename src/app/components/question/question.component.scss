@@ -10,6 +10,10 @@
     font-weight: 700;
     font-size: 1.08rem;
     color: colors.$primary;
+
+    .required-icon {
+      color: colors.$secondary;
+    }
   }
 
   .hint {

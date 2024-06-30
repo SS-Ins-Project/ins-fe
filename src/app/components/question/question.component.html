@@ -1,5 +1,5 @@
 <div class="question">
-  <mat-label class="label">{{ question.question_name }}</mat-label>
+  <mat-label class="label">{{ question.question_name }}<span class="required-icon" *ngIf="question.question_required">&nbsp;&#42;</span></mat-label>
   <mat-hint class="hint" *ngIf="question.question_hint">{{ question.question_hint }}</mat-hint>
   <mat-form-field
     appearance="outline"
@@ -16,6 +16,9 @@
       [placeholder]="question.question_hint ?? ''"
       [type]="question.answer_type === AnswerType.TEXT ? 'text' : 'number'"
     />
+    <mat-error *ngIf="control.invalid && (control.touched || control.dirty)">
+      {{control.hasError('pattern') ? 'Моля, въведете валиден отговор!' : 'Моля, дайте отговор на този въпрос!'}}
+    </mat-error>
   </mat-form-field>
   <ng-container *ngIf="question.answer_type === AnswerType.RADIO_SELECT">
     <mat-radio-group
@@ -27,6 +30,7 @@
       <mat-radio-button value="Y">Да</mat-radio-button>
       <mat-radio-button value="N">Не</mat-radio-button>
     </mat-radio-group>
+    <mat-error *ngIf="control.invalid && (control.touched || control.dirty)">Моля, дайте отговор на този въпрос!</mat-error>
   </ng-container>
 
   <ng-container *ngIf="question.answer_type === AnswerType.SELECT">
@@ -36,6 +40,7 @@
         <mat-option [value]="option">{{ option.answer_name }}</mat-option>
         }
       </mat-select>
+      <mat-error *ngIf="control.invalid && (control.touched || control.dirty)">Моля, дайте отговор на този въпрос!</mat-error>
     </mat-form-field>
   </ng-container>
 </div>
